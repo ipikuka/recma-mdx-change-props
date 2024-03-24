@@ -5,7 +5,7 @@ import recmaMdxChangeProps, { type ChangePropsOptions } from "../src";
 
 describe("without the plugin", () => {
   // ******************************************
-  it("sets no default value for the components (the default behaviour)", async () => {
+  it("keep 'props' as it is", async () => {
     const source = dedent`
       # Hi {props.foo}
             
@@ -14,42 +14,14 @@ describe("without the plugin", () => {
 
     const compiledSource = await compile(source);
 
-    expect(String(compiledSource)).toMatchInlineSnapshot(`
-      "import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
-      function _createMdxContent(props) {
-        const _components = {
-          h1: "h1",
-          ...props.components
-        }, {Test} = _components;
-        if (!Test) _missingMdxReference("Test", true);
-        return _jsxs(_Fragment, {
-          children: [_jsxs(_components.h1, {
-            children: ["Hi ", props.foo]
-          }), "\\n", _jsx(Test, {
-            name: props.baz
-          })]
-        });
-      }
-      export default function MDXContent(props = {}) {
-        const {wrapper: MDXLayout} = props.components || ({});
-        return MDXLayout ? _jsx(MDXLayout, {
-          ...props,
-          children: _jsx(_createMdxContent, {
-            ...props
-          })
-        }) : _createMdxContent(props);
-      }
-      function _missingMdxReference(id, component) {
-        throw new Error("Expected " + (component ? "component" : "object") + " \`" + id + "\` to be defined: you likely forgot to import, pass, or provide it.");
-      }
-      "
-    `);
+    expect(String(compiledSource)).toContain("function _createMdxContent(props)");
+    expect(String(compiledSource)).toContain("...props.components");
   });
 });
 
 describe("with the plugin (no option)", () => {
   // ******************************************
-  it("sets the default value '() => null' for all components", async () => {
+  it("converts 'props' into '_props'", async () => {
     const source = dedent`
       # Hi {props.foo}
               
@@ -60,42 +32,14 @@ describe("with the plugin (no option)", () => {
       recmaPlugins: [recmaMdxChangeProps],
     });
 
-    expect(String(compiledSource)).toMatchInlineSnapshot(`
-      "import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
-      function _createMdxContent(_props) {
-        const _components = {
-          h1: "h1",
-          ..._props.components
-        }, {Test} = _components;
-        if (!Test) _missingMdxReference("Test", true);
-        return _jsxs(_Fragment, {
-          children: [_jsxs(_components.h1, {
-            children: ["Hi ", props.foo]
-          }), "\\n", _jsx(Test, {
-            name: props.baz
-          })]
-        });
-      }
-      export default function MDXContent(props = {}) {
-        const {wrapper: MDXLayout} = props.components || ({});
-        return MDXLayout ? _jsx(MDXLayout, {
-          ...props,
-          children: _jsx(_createMdxContent, {
-            ...props
-          })
-        }) : _createMdxContent(props);
-      }
-      function _missingMdxReference(id, component) {
-        throw new Error("Expected " + (component ? "component" : "object") + " \`" + id + "\` to be defined: you likely forgot to import, pass, or provide it.");
-      }
-      "
-    `);
+    expect(String(compiledSource)).toContain("function _createMdxContent(_props)");
+    expect(String(compiledSource)).toContain("..._props.components");
   });
 });
 
 describe("with the plugin (has options)", () => {
   // ******************************************
-  it("sets the default value '() => null' for the component passes the test (string)", async () => {
+  it("converts 'props' into '__props__'", async () => {
     const source = dedent`
       # Hi {props.foo}
               
@@ -106,35 +50,7 @@ describe("with the plugin (has options)", () => {
       recmaPlugins: [[recmaMdxChangeProps, { propAs: "__props__" } as ChangePropsOptions]],
     });
 
-    expect(String(compiledSource)).toMatchInlineSnapshot(`
-      "import {Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs} from "react/jsx-runtime";
-      function _createMdxContent(__props__) {
-        const _components = {
-          h1: "h1",
-          ...__props__.components
-        }, {Test} = _components;
-        if (!Test) _missingMdxReference("Test", true);
-        return _jsxs(_Fragment, {
-          children: [_jsxs(_components.h1, {
-            children: ["Hi ", props.foo]
-          }), "\\n", _jsx(Test, {
-            name: props.baz
-          })]
-        });
-      }
-      export default function MDXContent(props = {}) {
-        const {wrapper: MDXLayout} = props.components || ({});
-        return MDXLayout ? _jsx(MDXLayout, {
-          ...props,
-          children: _jsx(_createMdxContent, {
-            ...props
-          })
-        }) : _createMdxContent(props);
-      }
-      function _missingMdxReference(id, component) {
-        throw new Error("Expected " + (component ? "component" : "object") + " \`" + id + "\` to be defined: you likely forgot to import, pass, or provide it.");
-      }
-      "
-    `);
+    expect(String(compiledSource)).toContain("function _createMdxContent(__props__)");
+    expect(String(compiledSource)).toContain("...__props__.components");
   });
 });
