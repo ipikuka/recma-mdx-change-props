@@ -1,5 +1,5 @@
 import { CONTINUE, SKIP, visit } from "estree-util-visit";
-import type { Node } from "estree";
+import type { FunctionDeclaration, Node } from "estree";
 
 export type ChangePropsOptions = {
   funcName?: string;
@@ -34,79 +34,41 @@ export default function recmaMdxChangeProps(options: ChangePropsOptions = {}) {
   const settings = Object.assign({}, DEFAULT_SETTINGS, options) as Required<ChangePropsOptions>;
 
   return (tree: Node) => {
+    let functionNode: FunctionDeclaration | undefined;
+
     visit(tree, (node, _, index) => {
       if (!index) return;
 
       if (node.type !== "FunctionDeclaration") return SKIP;
 
-      if (node.id.name !== settings.funcName) return SKIP;
+      if (node.id.name === settings.funcName) {
+        functionNode = node;
 
-      node.params.forEach((param) => {
-        if (param.type === "Identifier" && param.name === settings.propName) {
-          param.name = settings.propAs;
+        node.params.forEach((param) => {
+          if (param.type === "Identifier" && param.name === settings.propName) {
+            param.name = settings.propAs;
 
-          return;
-        }
-      });
-
-      const statements = node.body.body;
-
-      statements.forEach((statement) => {
-        if (statement.type === "VariableDeclaration") {
-          const declarations = statement.declarations;
-
-          declarations.forEach((declaration) => {
-            console.dir(declaration, { depth: null });
-
-            if (
-              declaration.id.type === "Identifier" &&
-              declaration.id.name === "_components" &&
-              declaration.init?.type === "ObjectExpression"
-            ) {
-              const properties = declaration.init.properties;
-
-              properties.forEach((property) => {
-                if (
-                  property.type === "SpreadElement" &&
-                  property.argument.type === "MemberExpression"
-                ) {
-                  property.argument.object.type === "Identifier" &&
-                    property.argument.object.name === settings.propName &&
-                    (property.argument.object.name = settings.propAs);
-                }
-              });
-            } else if (
-              declaration.id.type === "ObjectPattern" &&
-              declaration?.init?.type === "LogicalExpression" &&
-              declaration.init.left.type === "MemberExpression"
-            ) {
-              const expression = declaration.init.left;
-
-              expression.object.type === "Identifier" &&
-                expression.object.name === settings.propName &&
-                (expression.object.name = settings.propAs);
-            } else if (
-              declaration.id.type === "ObjectPattern" &&
-              declaration.init?.type === "ObjectExpression"
-            ) {
-              const properties = declaration.init.properties;
-
-              properties.forEach((property) => {
-                if (
-                  property.type === "SpreadElement" &&
-                  property.argument.type === "MemberExpression"
-                ) {
-                  property.argument.object.type === "Identifier" &&
-                    property.argument.object.name === settings.propName &&
-                    (property.argument.object.name = settings.propAs);
-                }
-              });
-            }
-          });
-        }
-      });
+            return;
+          }
+        });
+      }
 
       return CONTINUE;
+    });
+
+    /* istanbul ignore next */
+    if (!functionNode) return;
+
+    visit(functionNode, (node) => {
+      if (
+        node.type === "MemberExpression" &&
+        node.object.type === "Identifier" &&
+        node.object.name === settings.propName &&
+        node.property.type === "Identifier" &&
+        node.property.name === "components"
+      ) {
+        node.object.name = settings.propAs;
+      }
     });
   };
 }
