@@ -4,9 +4,7 @@ import dedent from "dedent";
 import recmaMdxChangeProps, { type ChangePropsOptions } from "../src";
 
 const source = dedent`
-  # Hi {props.foo}
-        
-  <Test name={props.baz} />
+  Hi <Test name={props.baz} />
 `;
 
 describe("without the plugin", () => {
@@ -17,7 +15,7 @@ describe("without the plugin", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(props) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ...props.components
         }, {Test} = _components;
     `);
@@ -30,7 +28,7 @@ describe("without the plugin", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(props) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ...props.components
         }, {Test} = _components;
     `);
@@ -48,7 +46,7 @@ describe("with the plugin (no option)", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(_props) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ..._props.components
         }, {Test} = _components;
     `);
@@ -64,7 +62,7 @@ describe("with the plugin (no option)", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(_props) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ..._props.components
         }, {Test} = _components;
     `);
@@ -82,7 +80,7 @@ describe("with the plugin (with options)", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(__props__) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ...__props__.components
         }, {Test} = _components;
     `);
@@ -98,7 +96,7 @@ describe("with the plugin (with options)", () => {
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(__props__) {
         const _components = {
-          h1: "h1",
+          p: "p",
           ...__props__.components
         }, {Test} = _components;
     `);

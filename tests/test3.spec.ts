@@ -4,8 +4,6 @@ import dedent from "dedent";
 import recmaMdxChangeProps, { type ChangePropsOptions } from "../src";
 
 const source = dedent`
-  # Hi {props.foo}
-        
   <Test name={props.baz} />
 `;
 
@@ -16,10 +14,7 @@ describe("without the plugin", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(props) {
-        const _components = {
-          h1: "h1",
-          ...props.components
-        }, {Test} = _components;
+        const {Test} = props.components || ({});
     `);
   });
 
@@ -29,10 +24,7 @@ describe("without the plugin", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(props) {
-        const _components = {
-          h1: "h1",
-          ...props.components
-        }, {Test} = _components;
+        const {Test} = props.components || ({});
     `);
   });
 });
@@ -47,10 +39,7 @@ describe("with the plugin (no option)", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(_props) {
-        const _components = {
-          h1: "h1",
-          ..._props.components
-        }, {Test} = _components;
+        const {Test} = _props.components || ({});
     `);
   });
 
@@ -63,10 +52,7 @@ describe("with the plugin (no option)", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(_props) {
-        const _components = {
-          h1: "h1",
-          ..._props.components
-        }, {Test} = _components;
+        const {Test} = _props.components || ({});
     `);
   });
 });
@@ -81,10 +67,7 @@ describe("with the plugin (with options)", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(__props__) {
-        const _components = {
-          h1: "h1",
-          ...__props__.components
-        }, {Test} = _components;
+        const {Test} = __props__.components || ({});
     `);
   });
 
@@ -97,10 +80,7 @@ describe("with the plugin (with options)", () => {
 
     expect(String(compiledSource)).toContain(dedent`
       function _createMdxContent(__props__) {
-        const _components = {
-          h1: "h1",
-          ...__props__.components
-        }, {Test} = _components;
+        const {Test} = __props__.components || ({});
     `);
   });
 });
