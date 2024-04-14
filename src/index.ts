@@ -55,22 +55,52 @@ export default function recmaMdxChangeProps(options: ChangePropsOptions = {}) {
         if (statement.type === "VariableDeclaration") {
           const declarations = statement.declarations;
 
-          declarations.forEach((direction) => {
-            if (direction.id.type === "Identifier" && direction.id.name === "_components") {
-              if (direction.init?.type === "ObjectExpression") {
-                const properties = direction.init.properties;
+          declarations.forEach((declaration) => {
+            console.dir(declaration, { depth: null });
 
-                properties.forEach((property) => {
-                  if (
-                    property.type === "SpreadElement" &&
-                    property.argument.type === "MemberExpression"
-                  ) {
-                    property.argument.object.type === "Identifier" &&
-                      property.argument.object.name === settings.propName &&
-                      (property.argument.object.name = settings.propAs);
-                  }
-                });
-              }
+            if (
+              declaration.id.type === "Identifier" &&
+              declaration.id.name === "_components" &&
+              declaration.init?.type === "ObjectExpression"
+            ) {
+              const properties = declaration.init.properties;
+
+              properties.forEach((property) => {
+                if (
+                  property.type === "SpreadElement" &&
+                  property.argument.type === "MemberExpression"
+                ) {
+                  property.argument.object.type === "Identifier" &&
+                    property.argument.object.name === settings.propName &&
+                    (property.argument.object.name = settings.propAs);
+                }
+              });
+            } else if (
+              declaration.id.type === "ObjectPattern" &&
+              declaration?.init?.type === "LogicalExpression" &&
+              declaration.init.left.type === "MemberExpression"
+            ) {
+              const expression = declaration.init.left;
+
+              expression.object.type === "Identifier" &&
+                expression.object.name === settings.propName &&
+                (expression.object.name = settings.propAs);
+            } else if (
+              declaration.id.type === "ObjectPattern" &&
+              declaration.init?.type === "ObjectExpression"
+            ) {
+              const properties = declaration.init.properties;
+
+              properties.forEach((property) => {
+                if (
+                  property.type === "SpreadElement" &&
+                  property.argument.type === "MemberExpression"
+                ) {
+                  property.argument.object.type === "Identifier" &&
+                    property.argument.object.name === settings.propName &&
+                    (property.argument.object.name = settings.propAs);
+                }
+              });
             }
           });
         }
