@@ -36,7 +36,7 @@ The `recma-mdx-change-props` changes the **`props`** parameter into **`_props`**
 
 ## Installation
 
-This package is suitable for ESM only. In Node.js (version 16+), install with npm:
+This package is suitable for ESM only. In Node.js (version 18+), install with npm:
 
 ```bash
 npm install recma-mdx-change-props
@@ -225,4 +225,4 @@ I like to contribute the Unified / Remark / MDX ecosystem, so I recommend you to
 [badge-codecov]: https://codecov.io/gh/ipikuka/recma-mdx-change-props/graph/badge.svg?token=MPKUA07Z6N
 [url-codecov]: https://codecov.io/gh/ipikuka/recma-mdx-change-props
 
-[badge-type-coverage]: https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Frecma-mdx-change-props%2Fmaster%2Fpackage.json)](https://github.com/ipikuka/recma-mdx-change-props
+[badge-type-coverage]: https://img.shields.io/badge/dynamic/json.svg?label=type-coverage&prefix=%E2%89%A5&suffix=%&query=$.typeCoverage.atLeast&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fipikuka%2Frecma-mdx-change-props%2Fmaster%2Fpackage.json

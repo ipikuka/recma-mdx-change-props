@@ -32,11 +32,13 @@
     "esast",
     "mdx",
     "mdxjs",
+    "plugin",
     "recma",
-    "recma-plugin",
-    "recma-mdx",
+    "recma plugin",
+    "recma mdx",
     "change props",
-    "recma-mdx-change-props"
+    "recma mdx content props",
+    "recma mdx change props"
   ],
   "author": "ipikuka <talatkuyuk@gmail.com>",
   "license": "MIT",
