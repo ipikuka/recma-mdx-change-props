@@ -1,5 +1,6 @@
+import type { Plugin } from "unified";
+import type { FunctionDeclaration, Node, Program } from "estree";
 import { CONTINUE, SKIP, visit } from "estree-util-visit";
-import type { FunctionDeclaration, Node } from "estree";
 
 export type ChangePropsOptions = {
   funcName?: string;
@@ -30,7 +31,7 @@ const DEFAULT_SETTINGS: ChangePropsOptions = {
  * }
  *
  */
-export default function recmaMdxChangeProps(options: ChangePropsOptions = {}) {
+const plugin: Plugin<[ChangePropsOptions?], Program> = (options = {}) => {
   const settings = Object.assign({}, DEFAULT_SETTINGS, options) as Required<ChangePropsOptions>;
 
   return (tree: Node) => {
@@ -71,4 +72,6 @@ export default function recmaMdxChangeProps(options: ChangePropsOptions = {}) {
       }
     });
   };
-}
+};
+
+export default plugin;
