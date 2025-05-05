@@ -38,7 +38,7 @@ const plugin: Plugin<[ChangePropsOptions?], Program> = (options = {}) => {
     let functionNode: FunctionDeclaration | undefined;
 
     visit(tree, (node, _, index) => {
-      if (!index) return;
+      if (index === undefined) return;
 
       if (node.type !== "FunctionDeclaration") return SKIP;
 
