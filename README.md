@@ -9,7 +9,7 @@
 [![license][badge-license]][url-license]
 
 > [!WARNING]  
-> The **`recma-mdx-change-props`** is useful for **`next-mdx-remote`** or **`next-mdx-remote-client`** users in `nextjs` applications. **`@next/mdx`** users don't need to use **`recma-mdx-change-props`** since built-in bundler system in `nextjs` can resolve the assets properly via `@next/mdx`.
+> The **`recma-mdx-change-props`** is useful for **`next-mdx-remote`** or **`next-mdx-remote-client`** users in `nextjs` applications. **`@mdx-js/mdx`** and **`@next/mdx`** users may need to use **`recma-mdx-change-props`** since everything is `props` in that packages.
 
 This package is a **[unified][unified]** (**[recma][recma]**) plugin **that enables the use of expressions like `{props.foo}` in MDX documents.**
 
