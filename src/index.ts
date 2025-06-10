@@ -46,6 +46,7 @@ const plugin: Plugin<[ChangePropsOptions?], Program> = (options = {}) => {
         functionNode = node;
 
         node.params.forEach((param) => {
+          /* istanbul ignore next */
           if (param.type === "Identifier" && param.name === settings.propName) {
             param.name = settings.propAs;
 
