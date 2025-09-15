@@ -9,7 +9,7 @@
 [![license][badge-license]][url-license]
 
 > [!WARNING]  
-> The **`recma-mdx-change-props`** is useful for **`next-mdx-remote`** or **`next-mdx-remote-client`** users in `nextjs` applications. **`@mdx-js/mdx`** and **`@next/mdx`** users may need to use **`recma-mdx-change-props`** since everything is `props` in that packages.
+> **`recma-mdx-change-props`** is useful for **`next-mdx-remote`** or **`next-mdx-remote-client`** users in `nextjs` applications. **`@mdx-js/mdx`** and **`@next/mdx`** users does **NOT** need to use **`recma-mdx-change-props`** since everything is `props` in that packages.
 
 This package is a **[unified][unified]** (**[recma][recma]**) plugin **that enables the use of expressions like `{props.foo}` in MDX documents.**
 
@@ -17,9 +17,9 @@ This package is a **[unified][unified]** (**[recma][recma]**) plugin **that enab
 
 ## When should I use this?
 
-**Use this plugin to enable expressions like `{props.foo}` in MDX documents.**
+Use **`recma-mdx-change-props`** to enable expressions like `{props.foo}` in MDX documents.
 
-This plugin allows you to pass the `props` object in the `scope` variable when using `next-mdx-remote` or `next-mdx-remote-client`.
+**`recma-mdx-change-props`** allows you to pass the `props` object in the `scope` variable when using `next-mdx-remote` or `next-mdx-remote-client`.
 
 ```javascript
 const scope = {
@@ -32,7 +32,7 @@ const scope = {
 <MDXRemote scope={scope} /* ... */ />
 ```
 
-The `recma-mdx-change-props` changes the **`props`** parameter into **`_props`** in the function **`_createMdxContent`** in the compiled source; and makes appropriate changes in order to do so. Without `recma-mdx-change-props`, there will be a confliction caused by "props" in the `function _createMdxContent(props){}` and the expression like `{props.foo}` in a MDX document will not work.
+**`recma-mdx-change-props`** changes the **`props`** parameter into **`_props`** in the function **`_createMdxContent`** in the compiled source; and makes appropriate changes in order to do so. Without **`recma-mdx-change-props`**, there will be a confliction caused by "props" in the `function _createMdxContent(props){}` and the expression like `{props.foo}` in a MDX document, and it will not work as expected.
 
 ## Installation
 
@@ -109,7 +109,7 @@ const scope = {
 }
 ``` 
 
-Without the `recma-mdx-change-props`, the statements `props.foo` and `props.baz` will be `undefined` during function construction.
+Without **`recma-mdx-change-props`**, the statements `props.foo` and `props.baz` will be `undefined` during function construction.
 
 ```js
 function _createMdxContent(props) {
@@ -160,7 +160,7 @@ This plugin works with `unified` version 6+. It is compatible with `mdx` version
 
 ## Security
 
-Use of `recma-mdx-change-props` does not involve user content so there are no openings for cross-site scripting (XSS) attacks.
+Use of **`recma-mdx-change-props`** does not involve user content so there are no openings for cross-site scripting (XSS) attacks.
 
 ## My Plugins
 
