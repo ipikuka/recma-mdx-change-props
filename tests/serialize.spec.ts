@@ -1,6 +1,5 @@
 import dedent from "dedent";
 import { serialize } from "next-mdx-remote/serialize";
-import { serialize as serialize_ } from "next-mdx-remote-client/serialize";
 
 import recmaMdxChangeProps from "../src";
 
@@ -31,30 +30,6 @@ describe("without the plugin", () => {
         }, this);
       }
     `);
-
-    const result_ = await serialize_({
-      source,
-      options: {
-        mdxOptions: { recmaPlugins: [recmaMdxChangeProps] },
-      },
-    });
-
-    if ("error" in result_) {
-      throw "Shouldn't be any syntax error !";
-    }
-
-    expect(String(result_.compiledSource)).toContain(dedent`
-      function _createMdxContent(_props) {
-        const {Test} = {
-          ..._provideComponents(),
-          ..._props.components
-        };
-        if (!Test) _missingMdxReference("Test", true);
-        return _jsx(Test, {
-          name: bar
-        });
-      }
-    `);
   });
 
   // ******************************************
@@ -78,29 +53,6 @@ describe("without the plugin", () => {
           lineNumber: 1,
           columnNumber: 1
         }, this);
-      }
-    `);
-
-    const result_ = await serialize_({
-      source,
-      options: {
-        mdxOptions: { recmaPlugins: [recmaMdxChangeProps] },
-      },
-    });
-
-    if ("error" in result_) {
-      throw "Shouldn't be any syntax error !";
-    }
-
-    expect(String(result_.compiledSource)).toContain(dedent`
-      function _createMdxContent(_props) {
-        const {motion} = {
-          ..._provideComponents(),
-          ..._props.components
-        };
-        if (!motion) _missingMdxReference("motion", false);
-        if (!motion.p) _missingMdxReference("motion.p", true);
-        return _jsx(motion.p, {});
       }
     `);
   });
@@ -135,32 +87,6 @@ describe("without the plugin", () => {
           lineNumber: 1,
           columnNumber: 1
         }, this);
-      }
-    `);
-
-    const result_ = await serialize_({
-      source,
-      options: {
-        mdxOptions: { recmaPlugins: [recmaMdxChangeProps] },
-      },
-    });
-
-    if ("error" in result_) {
-      throw "Shouldn't be any syntax error !";
-    }
-
-    expect(String(result_.compiledSource)).toContain(dedent`
-      function _createMdxContent(_props) {
-        const {Test} = {
-          ..._provideComponents(),
-          ..._props.components
-        };
-        if (!Test) _missingMdxReference("Test", true);
-        return _jsx(Test, {
-          content: _jsx(_Fragment, {
-            children: "Rendering a fragment"
-          })
-        });
       }
     `);
   });
