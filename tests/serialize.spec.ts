@@ -1,7 +1,7 @@
 import dedent from "dedent";
 import { serialize } from "next-mdx-remote/serialize";
 
-import recmaMdxChangeProps from "../src";
+import recmaMdxChangeProps from "../src/index.js";
 
 describe("without the plugin", () => {
   // ******************************************

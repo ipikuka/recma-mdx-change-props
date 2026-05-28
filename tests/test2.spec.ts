@@ -1,7 +1,7 @@
 import { compile } from "@mdx-js/mdx";
 import dedent from "dedent";
 
-import recmaMdxChangeProps, { type ChangePropsOptions } from "../src";
+import recmaMdxChangeProps, { type ChangePropsOptions } from "../src/index.js";
 
 const source = dedent`
   Hi <Test name={props.baz} />
